@@ -1,5 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, Pressable } from 'react-native';
+import { KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
+
 
 export default function TodoItem({ text, id, onDelete }) {
   return (
