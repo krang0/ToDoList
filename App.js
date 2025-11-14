@@ -22,6 +22,11 @@ function addTaskHandler() {
     ...currentTasks,
     { id: Math.random().toString(), text: enteredTaskText },
   ]);
+  function deleteTaskHandler(id) {
+  setTasks((currentTasks) => {
+    return currentTasks.filter((task) => task.id !== id);
+  });
+}
 
   setEnteredTaskText('');
 }
@@ -43,14 +48,18 @@ return (
     </View>
 
     <View style={styles.listContainer}>
-      <FlatList
-        data={tasks}
-        renderItem={({ item }) => <TodoItem text={item.text} />}
-        keyExtractor={(item) => item.id}
-        ListEmptyComponent={
-          <Text style={styles.emptyText}>No tasks yet. Add one!</Text>
-        }
-      />
+    <FlatList
+      data={tasks}
+      renderItem={({ item }) => (
+        <TodoItem
+          text={item.text}
+          id={item.id}
+          onDelete={deleteTaskHandler}
+        />
+      )}
+      keyExtractor={(item) => item.id}
+      ListEmptyComponent={<Text style={styles.emptyText}>No tasks yet. Add one!</Text>}
+    />
     </View>
 
   </View>
