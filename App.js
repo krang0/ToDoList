@@ -2,6 +2,9 @@ import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState } from 'react';
 import { TextInput, Button } from 'react-native';
+import { FlatList } from 'react-native';
+import TodoItem from './components/TodoItem';
+
 
 export default function App() {
   const [enteredTaskText, setEnteredTaskText] = useState('');
@@ -23,26 +26,50 @@ function addTaskHandler() {
   setEnteredTaskText('');
 }
 
-  return (
-    <SafeAreaView style={styles.appContainer}>
-      <View style={styles.contentContainer}>
-        <Text style={styles.title}>My Todo List</Text>
-            <View style={styles.inputContainer}>
-              <TextInput
-                style={styles.textInput}
-                placeholder="Add a new task..."
-                onChangeText={taskInputHandler}
-                value={enteredTaskText}
-              />
-  <Button title="Add" onPress={addTaskHandler} />
-</View>
+return (
+  <View style={styles.container}>
 
-      </View>
-    </SafeAreaView>
-  );
+    <View style={styles.inputContainer}>
+      <TextInput
+        style={styles.input}
+        placeholder="Add a task..."
+        value={task}
+        onChangeText={setTask}
+      />
+
+      <TouchableOpacity style={styles.addButton} onPress={addTask}>
+        <Text style={styles.addButtonText}>Add</Text>
+      </TouchableOpacity>
+    </View>
+
+    <View style={styles.listContainer}>
+      <FlatList
+        data={tasks}
+        renderItem={({ item }) => <TodoItem text={item.text} />}
+        keyExtractor={(item) => item.id}
+        ListEmptyComponent={
+          <Text style={styles.emptyText}>No tasks yet. Add one!</Text>
+        }
+      />
+    </View>
+
+  </View>
+);
+
 }
 
 const styles = StyleSheet.create({
+
+  listContainer: {
+  flex: 5,
+  },
+  emptyText: {
+    textAlign: 'center',
+    marginTop: 20,
+    fontSize: 16,
+    color: '#888',
+  },
+
   inputContainer: {
   flexDirection: 'row',
   justifyContent: 'space-between',
